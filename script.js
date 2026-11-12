@@ -17,13 +17,18 @@ tick();setInterval(tick,1000);
 if(!rm&&'IntersectionObserver' in window){var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:.2});
 cd.classList.add('rv');io.observe(cd);document.querySelectorAll('#gal figure').forEach(function(f,i){f.style.setProperty('--d',(i*.18)+'s');f.classList.add('rv');io.observe(f)})}
 var lb=document.getElementById('lb');document.getElementById('gal').addEventListener('click',function(e){if(e.target.tagName=='IMG'){lb.firstChild.src=e.target.src;lb.classList.add('on')}});lb.addEventListener('click',function(){lb.classList.remove('on')});document.addEventListener('keydown',function(e){if(e.key=='Escape')lb.classList.remove('on')});
-var wall=document.getElementById('wall'),K='rp-wishes',list=[];
-try{list=JSON.parse(localStorage.getItem(K)||'[]')}catch(e){list=[]}
-function esc(s){return s.replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
-function draw(){wall.innerHTML=list.length?list.map(function(w){return '<div class="w"><p>&ldquo;'+esc(w.t)+'&rdquo;</p><small>'+esc(w.n)+'</small></div>'}).join(''):'<div class="empty">Be the first to leave a wish below.</div>'}
-draw();
-document.getElementById('send').addEventListener('click',function(){var n=document.getElementById('wn').value.trim(),t=document.getElementById('wt').value.trim();
-if(!n||!t){alert('Please add your name and a wish.');return}
-list.unshift({n:n,t:t});try{localStorage.setItem(K,JSON.stringify(list))}catch(e){}
-draw();document.getElementById('wn').value='';document.getElementById('wt').value='';petals(20);wall.scrollIntoView({behavior:'smooth',block:'center'})});
+// RSVP Form with Google Sheets Integration
+var rsvpForm=document.getElementById('rsvpForm');
+if(rsvpForm){
+var attendanceRadios=document.querySelectorAll('input[name="attendance"]');
+var eventsGroup=document.getElementById('eventsGroup');
+attendanceRadios.forEach(function(radio){radio.addEventListener('change',function(){eventsGroup.style.display=radio.value==='yes'?'block':'none'})});
+rsvpForm.addEventListener('submit',function(e){e.preventDefault();
+var submitBtn=rsvpForm.querySelector('.rsvp-submit');
+var status=document.getElementById('rsvpStatus');
+submitBtn.disabled=true;
+submitBtn.textContent='Submitting...';
+var formData={name:document.getElementById('guestName').value,email:document.getElementById('guestEmail').value,phone:document.getElementById('guestPhone').value,attendance:document.querySelector('input[name="attendance"]:checked').value,events:Array.from(document.querySelectorAll('input[name="events"]:checked')).map(function(cb){return cb.value}),guestCount:document.getElementById('guestCount').value,dietary:document.getElementById('dietaryReq').value,message:document.getElementById('message').value};
+var SCRIPT_URL='https://script.google.com/macros/s/AKfycbzM8as6O4Paq9sSyxuXeCzLcHMud5W2iH-jMtWGGnugYSIV56X865Yzz9s9bsFSVJw35g/exec';
+fetch(SCRIPT_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/json'},body:JSON.stringify(formData)}).then(function(){status.className='rsvp-status success';status.textContent='Thank you! Your RSVP has been received. We look forward to celebrating with you!';rsvpForm.reset();eventsGroup.style.display='none';submitBtn.disabled=false;submitBtn.textContent='Submit RSVP';petals(30);setTimeout(function(){status.style.display='none'},8000)}).catch(function(err){status.className='rsvp-status error';status.textContent='Sorry, there was an error submitting your RSVP. Please try again or contact us directly.';submitBtn.disabled=false;submitBtn.textContent='Submit RSVP';setTimeout(function(){status.style.display='none'},8000)})})}
 })();
