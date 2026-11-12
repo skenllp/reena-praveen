@@ -34,7 +34,7 @@ section{max-width:520px;margin:0 auto;padding:3.2rem 1.2rem}
 .fam h3{font:400 2.8rem 'Great Vibes',cursive;color:var(--burg)}
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .fam h3,:root:not([data-theme="light"]) .card h3{color:var(--blush)}}
 .fam p{font-size:1.25rem;line-height:1.7;font-weight:400}.fam .of{font-size:.85rem;letter-spacing:.26em;text-transform:uppercase;color:var(--burg);margin:.3rem 0;font-weight:500}
-.fam .adr{color:var(--mut);font-size:1.05rem;margin-top:.5rem;line-height:1.7}
+.fam .adr{color:var(--mut);font-size:1.15rem;margin-top:.5rem;line-height:1.8}
 .fam hr{border:0;height:1px;background:var(--line);width:50%;margin:0 auto}
 .big{font:italic 700 clamp(2.6rem,12vw,3.6rem) 'Playfair Display',serif;text-align:center;color:var(--burg);line-height:1.1}
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .big{color:var(--blush)}}
