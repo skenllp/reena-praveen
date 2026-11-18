@@ -1,26 +1,51 @@
 <!DOCTYPE html>
-<html lang="en"><head><meta charset="utf-8">
+<html lang="en">
+<head>
+<meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Reena &amp; Praveen – Wedding Invitation</title>
-<meta property="og:title" content="Reena & Praveen – Wedding Invitation">
-<meta property="og:description" content="You are invited to the wedding of Reena & Praveen. Thu 21 • Mon 25 • January • 2027">
+<meta name="description" content="You are invited to the wedding of Reena &amp; Praveen. Thu 21 • Mon 25 • January • 2027">
+<link rel="canonical" href="https://reena-praveen.vercel.app/">
+
+<!-- Open Graph / Facebook / WhatsApp / Android / Pixel 9 -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Reena &amp; Praveen Wedding">
+<meta property="og:url" content="https://reena-praveen.vercel.app/">
+<meta property="og:title" content="Reena &amp; Praveen – Wedding Invitation">
+<meta property="og:description" content="You are invited to the wedding of Reena &amp; Praveen. Thu 21 • Mon 25 • January • 2027">
 <meta property="og:image" content="https://reena-praveen.vercel.app/assets/image.png">
 <meta property="og:image:secure_url" content="https://reena-praveen.vercel.app/assets/image.png">
 <meta property="og:image:type" content="image/png">
-<meta property="og:image:width" content="853">
-<meta property="og:image:height" content="840">
+<meta property="og:image:width" content="1199">
+<meta property="og:image:height" content="1312">
 <meta property="og:image:alt" content="Reena and Praveen Wedding Invitation">
-<meta property="og:type" content="website">
-<meta property="og:url" content="https://reena-praveen.vercel.app/">
-<meta property="og:site_name" content="Reena & Praveen Wedding">
 <meta property="og:locale" content="en_US">
+
+<!-- Twitter Card -->
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Reena & Praveen – Wedding Invitation">
-<meta name="twitter:description" content="You are invited to the wedding of Reena & Praveen. Thu 21 • Mon 25 • January • 2027">
+<meta name="twitter:url" content="https://reena-praveen.vercel.app/">
+<meta name="twitter:title" content="Reena &amp; Praveen – Wedding Invitation">
+<meta name="twitter:description" content="You are invited to the wedding of Reena &amp; Praveen. Thu 21 • Mon 25 • January • 2027">
 <meta name="twitter:image" content="https://reena-praveen.vercel.app/assets/image.png">
 <meta name="twitter:image:alt" content="Reena and Praveen Wedding Invitation">
+
+<!-- Mobile & PWA Theme for Android / Pixel 9 / iOS -->
+<meta name="theme-color" content="#4a0a16">
+<meta name="msapplication-TileColor" content="#4a0a16">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Reena &amp; Praveen">
+
+<!-- Favicons & App Icons -->
+<link rel="icon" type="image/x-icon" href="favicon.ico">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16x16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png">
+<link rel="manifest" href="manifest.webmanifest">
+
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;1,500;1,700&family=Jost:wght@300;400;500&family=Great+Vibes&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css"></head><body class="lock">
+<link rel="stylesheet" href="style.css">
+</head><body class="lock">
 
 <audio id="bgMusic" loop>
  <source src="assets/JVKE - her.mp3" type="audio/mpeg">
@@ -234,8 +259,20 @@
   </div>
   
   <button type="submit" class="btn f rsvp-submit">Submit RSVP</button>
-  <div id="rsvpStatus" class="rsvp-status"></div>
  </form>
+ <div id="rsvpStatus" class="rsvp-status"></div>
+</section>
+
+<section class="share-section">
+ <div class="lab">Share</div>
+ <div class="share-title">Invite Family &amp; Friends</div>
+ <p class="share-desc">Share this wedding invitation with your loved ones</p>
+ <div class="share-buttons">
+  <button type="button" class="btn f" id="btnShareNative">Share</button>
+  <a class="btn" id="btnShareWhatsApp" target="_blank" rel="noopener" href="https://api.whatsapp.com/send?text=You%20are%20invited%20to%20the%20wedding%20of%20Reena%20%26%20Praveen%3A%20https%3A%2F%2Freena-praveen.vercel.app%2F">WhatsApp</a>
+  <button type="button" class="btn" id="btnCopyLink">Copy Link</button>
+ </div>
+ <div id="shareStatus" class="share-status" style="display:none;"></div>
 </section>
 
 <footer>

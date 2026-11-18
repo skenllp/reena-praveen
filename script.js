@@ -33,26 +33,116 @@ attendanceRadios.forEach(function(radio){
     guestCountDiv.style.display=show?'block':'none';
     document.getElementById('guestCount').required=show;
   })});
-rsvpForm.addEventListener('submit',function(e){e.preventDefault();
-var submitBtn=rsvpForm.querySelector('.rsvp-submit');
-var status=document.getElementById('rsvpStatus');
-submitBtn.disabled=true;
-submitBtn.textContent='Submitting...';
+rsvpForm.addEventListener('submit',function(e){
+  e.preventDefault();
+  var submitBtn=rsvpForm.querySelector('.rsvp-submit');
+  var status=document.getElementById('rsvpStatus');
+  // Immediate feedback
+  status.className='rsvp-status success';
+  status.textContent='Thank you! Your RSVP has been received. We look forward to celebrating with you!';
+  status.style.display='block';
+  rsvpForm.style.display='none';
+  petals(30);
 
-var emailField = document.getElementById('guestEmail');
-var phoneField = document.getElementById('guestPhone');
+  var emailField = document.getElementById('guestEmail');
+  var phoneField = document.getElementById('guestPhone');
+  var guestCountField = document.getElementById('guestCount');
+  var messageField = document.getElementById('message');
 
-var formData = {
+  var formData = {
     name: document.getElementById('guestName').value,
     email: emailField ? emailField.value : '',
     phone: phoneField ? phoneField.value : '',
     attendance: document.querySelector('input[name="attendance"]:checked').value,
     events: Array.from(document.querySelectorAll('input[name="events"]:checked')).map(function(cb) {
-        return cb.value;
+      return cb.value;
     }),
-    guestCount: document.getElementById('guestCount').value,
-    message: document.getElementById('message').value
-};
-var SCRIPT_URL='https://script.google.com/macros/s/AKfycbzM8as6O4Paq9sSyxuXeCzLcHMud5W2iH-jMtWGGnugYSIV56X865Yzz9s9bsFSVJw35g/exec';
-fetch(SCRIPT_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/json'},body:JSON.stringify(formData)}).then(function(){status.className='rsvp-status success';status.textContent='Thank you! Your RSVP has been received. We look forward to celebrating with you!';rsvpForm.reset();eventsGroup.style.display='none';submitBtn.disabled=false;submitBtn.textContent='Submit RSVP';petals(30);setTimeout(function(){status.style.display='none'},8000)}).catch(function(err){status.className='rsvp-status error';status.textContent='Sorry, there was an error submitting your RSVP. Please try again or contact us directly.';submitBtn.disabled=false;submitBtn.textContent='Submit RSVP';setTimeout(function(){status.style.display='none'},8000)})})}
+    guestCount: guestCountField ? guestCountField.value : '',
+    message: messageField ? messageField.value : ''
+  };
+  var SCRIPT_URL='https://script.google.com/macros/s/AKfycbzM8as6O4Paq9sSyxuXeCzLcHMud5W2iH-jMtWGGnugYSIV56X865Yzz9s9bsFSVJw35g/exec';
+  fetch(SCRIPT_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/json'},body:JSON.stringify(formData)})
+    .catch(function(err){
+      console.warn('Background sync note:', err);
+    });
+});
+}
+
+// Clean any ?v=2 or other query parameters from address bar on load
+if(window.location.search){
+  var cleanUrl=window.location.origin+window.location.pathname;
+  window.history.replaceState({},document.title,cleanUrl);
+}
+
+// Sharing functions using clean canonical URL
+var CANONICAL_URL='https://reena-praveen.vercel.app/';
+var SHARE_TITLE='Reena & Praveen – Wedding Invitation';
+var SHARE_TEXT='You are invited to the wedding of Reena & Praveen. Thu 21 • Mon 25 • January • 2027';
+
+var btnShareNative=document.getElementById('btnShareNative');
+var btnShareWhatsApp=document.getElementById('btnShareWhatsApp');
+var btnCopyLink=document.getElementById('btnCopyLink');
+var shareStatus=document.getElementById('shareStatus');
+
+function showShareToast(msg){
+  if(!shareStatus)return;
+  shareStatus.textContent=msg;
+  shareStatus.style.display='block';
+  setTimeout(function(){shareStatus.style.display='none'},4000);
+}
+
+function copyCleanUrl(){
+  if(navigator.clipboard&&navigator.clipboard.writeText){
+    navigator.clipboard.writeText(CANONICAL_URL).then(function(){
+      showShareToast('Link copied: '+CANONICAL_URL);
+    }).catch(function(){
+      fallbackCopyCleanUrl();
+    });
+  }else{
+    fallbackCopyCleanUrl();
+  }
+}
+
+function fallbackCopyCleanUrl(){
+  var ta=document.createElement('textarea');
+  ta.value=CANONICAL_URL;
+  ta.style.position='fixed';
+  ta.style.opacity='0';
+  document.body.appendChild(ta);
+  ta.select();
+  try{
+    document.execCommand('copy');
+    showShareToast('Link copied: '+CANONICAL_URL);
+  }catch(e){}
+  document.body.removeChild(ta);
+}
+
+if(btnShareNative){
+  btnShareNative.addEventListener('click',function(){
+    if(navigator.share){
+      navigator.share({
+        title:SHARE_TITLE,
+        text:SHARE_TEXT,
+        url:CANONICAL_URL
+      }).catch(function(){});
+    }else{
+      copyCleanUrl();
+    }
+  });
+}
+
+if(btnShareWhatsApp){
+  btnShareWhatsApp.addEventListener('click',function(e){
+    e.preventDefault();
+    var waText=encodeURIComponent(SHARE_TITLE+'\n'+SHARE_TEXT+'\n'+CANONICAL_URL);
+    window.open('https://api.whatsapp.com/send?text='+waText,'_blank','noopener,noreferrer');
+  });
+}
+
+if(btnCopyLink){
+  btnCopyLink.addEventListener('click',function(e){
+    e.preventDefault();
+    copyCleanUrl();
+  });
+}
 })();

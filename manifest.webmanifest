@@ -1,0 +1,40 @@
+{
+  "name": "Reena & Praveen - Wedding Invitation",
+  "short_name": "Reena & Praveen",
+  "description": "You are invited to the wedding of Reena & Praveen. Thu 21 - Mon 25 January 2027",
+  "start_url": "/",
+  "id": "/",
+  "display": "standalone",
+  "background_color": "#f6efe3",
+  "theme_color": "#4a0a16",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "/assets/favicon-16x16.png",
+      "sizes": "16x16",
+      "type": "image/png"
+    },
+    {
+      "src": "/assets/favicon-32x32.png",
+      "sizes": "32x32",
+      "type": "image/png"
+    },
+    {
+      "src": "/assets/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    },
+    {
+      "src": "/assets/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/assets/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
