@@ -22,7 +22,17 @@ var rsvpForm=document.getElementById('rsvpForm');
 if(rsvpForm){
 var attendanceRadios=document.querySelectorAll('input[name="attendance"]');
 var eventsGroup=document.getElementById('eventsGroup');
-attendanceRadios.forEach(function(radio){radio.addEventListener('change',function(){eventsGroup.style.display=radio.value==='yes'?'block':'none'})});
+  var guestCountDiv=document.getElementById('guestCount').parentElement;
+  // hide guest count initially
+  guestCountDiv.style.display='none';
+  document.getElementById('guestCount').required=false;
+attendanceRadios.forEach(function(radio){
+  radio.addEventListener('change',function(){
+    var show=radio.value==='yes';
+    eventsGroup.style.display=show?'block':'none';
+    guestCountDiv.style.display=show?'block':'none';
+    document.getElementById('guestCount').required=show;
+  })});
 rsvpForm.addEventListener('submit',function(e){e.preventDefault();
 var submitBtn=rsvpForm.querySelector('.rsvp-submit');
 var status=document.getElementById('rsvpStatus');
